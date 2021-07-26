@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 # Create app directory
 WORKDIR /src/app
 # Install app dependencies
@@ -6,9 +6,9 @@ WORKDIR /src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
-
+RUN yarn install
+#RUN yarn build 
 # Bundle app source
 COPY . .
-RUN cd /src/app && yarn build
+CMD yarn build && yarn start
 EXPOSE 3000

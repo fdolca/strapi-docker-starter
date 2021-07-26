@@ -1,0 +1,45 @@
+[1mdiff --git a/backend/Dockerfile b/backend/Dockerfile[m
+[1mindex 8dbd02e..dad9638 100644[m
+[1m--- a/backend/Dockerfile[m
+[1m+++ b/backend/Dockerfile[m
+[36m@@ -1,3 +1,6 @@[m
+ FROM strapi/base[m
+[32m+[m[32mWORKDIR /src/strapi-backend[m
+[32m+[m[32mCOPY . .[m
+ RUN yarn create strapi-app backend --quickstart --no-run --template https://github.com/fdolca/strapi-base-template.git[m
+[32m+[m[32mCMD ["./start.sh"][m
+ EXPOSE 1337[m
+\ No newline at end of file[m
+[1mdiff --git a/docker-compose.yml b/docker-compose.yml[m
+[1mindex fca9349..e4874c2 100644[m
+[1m--- a/docker-compose.yml[m
+[1m+++ b/docker-compose.yml[m
+[36m@@ -28,16 +28,4 @@[m [mservices:[m
+         extra_hosts:[m
+             - "host.docker.internal:172.17.0.1"[m
+         command: ./backend/start.sh[m
+[31m-    frontend:[m
+[31m-        build:[m
+[31m-            context: frontend[m
+[31m-            dockerfile: Dockerfile[m
+[31m-        environment:[m
+[31m-            NEXT_PUBLIC_STRAPI_API_URL: ${NEXT_PUBLIC_STRAPI_API_URL}[m
+[31m-        ports:[m
+[31m-            - "3000:3000"[m
+[31m-        command: ["yarn", "start"][m
+[31m-        depends_on: [m
+[31m-            - backend[m
+[31m-            [m
+ [m
+[1mdiff --git a/frontend/Dockerfile b/frontend/Dockerfile[m
+[1mindex 520120d..90d32f7 100644[m
+[1m--- a/frontend/Dockerfile[m
+[1m+++ b/frontend/Dockerfile[m
+[36m@@ -10,5 +10,5 @@[m [mRUN npm install[m
+ [m
+ # Bundle app source[m
+ COPY . .[m
+[31m-RUN cd /src/app && yarn build[m
+[32m+[m[32mRUN yarn build[m
+ EXPOSE 3000[m
+\ No newline at end of file[m
